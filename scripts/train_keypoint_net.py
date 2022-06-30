@@ -15,6 +15,7 @@ from kp2d.datasets.patches_dataset import PatchesDataset
 from kp2d.evaluation.evaluate import evaluate_keypoint_net
 from kp2d.models.KeypointNetwithIOLoss import KeypointNetwithIOLoss
 from kp2d.utils.config import parse_train_file
+import horovod.torch as hvd
 from kp2d.utils.horovod import hvd_init, local_rank, rank, world_size
 from kp2d.utils.logging import SummaryWriter, printcolor
 from train_keypoint_net_utils import (_set_seeds, sample_to_cuda,
