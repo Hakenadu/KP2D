@@ -11,7 +11,6 @@ import torchvision.transforms as transforms
 from torch.utils.data import ConcatDataset, DataLoader
 from tqdm import tqdm
 
-import horovod.torch as hvd
 from kp2d.datasets.patches_dataset import PatchesDataset
 from kp2d.evaluation.evaluate import evaluate_keypoint_net
 from kp2d.models.KeypointNetwithIOLoss import KeypointNetwithIOLoss
@@ -47,7 +46,7 @@ def model_submodule(model):
     the model itself. """
     return model.module if hasattr(model, 'module') else model
 
-def main(file):
+def main(file, checkpoint=None):
     """
     KP2D training script.
 
@@ -85,7 +84,7 @@ def main(file):
         printcolor(config.model.params, 'red')
 
     # Setup model and datasets/dataloaders
-    model = KeypointNetwithIOLoss(**config.model.params)
+    model = KeypointNetwithIOLoss(checkpoint=checkpoint, **config.model.params)
     train_dataset, train_loader = setup_datasets_and_dataloaders(config.datasets)
     printcolor('({}) length: {}'.format("Train", len(train_dataset)))
 
